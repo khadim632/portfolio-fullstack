@@ -18,7 +18,7 @@ const __dirname = path.dirname(__filename);
 
 // CORS
 app.use(cors({
-  origin: process.env.FRONTEND_URL || "http://localhost:3000",
+  origin: process.env.FRONTEND_URL || "https://portfolio-khadim-ndao-pi.vercel.app/",
   credentials: true
 }));
 

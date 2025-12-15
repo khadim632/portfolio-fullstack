@@ -32,7 +32,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   const login = async (email: string, password: string) => {
     try {
-      const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000/api";
+      const API_URL = process.env.REACT_APP_API_URL || "https://portfolio-fullstack-0nfd.onrender.com/api";
       
       console.log("🔄 Tentative de connexion...");
       console.log("📧 Email:", email);
