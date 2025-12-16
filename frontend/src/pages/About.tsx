@@ -55,7 +55,7 @@ const About: React.FC = () => {
       ),
       title: "Développement Full Stack",
       description: "Conception et réalisation de sites et applications web/mobile",
-      technologies: ["React", "Node.js", "TypeScript", "MongoDB", "Express"]
+      technologies: ["React", "Node.js", "Laravel", "MongoDB", "Python"]
     },
     {
       icon: (
@@ -65,7 +65,7 @@ const About: React.FC = () => {
       ),
       title: "Design & Graphisme",
       description: "Conception et création d'identités visuelles",
-      technologies: ["Figma", "Adobe Suite", "UI/UX Design"]
+      technologies: ["Figma", "Adobe", "UI/UX Design"]
     },
     {
       icon: (
@@ -85,24 +85,24 @@ const About: React.FC = () => {
       ),
       title: "Intelligence Artificielle",
       description: "Formation certifiée en IA",
-      technologies: ["Machine Learning", "AI Fundamentals"]
+      technologies: ["Les bases de l'intelligence artificielle", "AI Fundamentals"]
     }
   ];
 
   const learningSkills = [
     {
       name: "Flutter & Dart",
-      progress: 60,
+      progress: 30,
       description: "Développement d'applications mobiles cross-platform"
     },
     {
       name: "React Native",
-      progress: 45,
+      progress: 50,
       description: "Applications mobiles avec JavaScript/React"
     },
     {
       name: "GraphQL",
-      progress: 50,
+      progress: 20,
       description: "API modernes et requêtes optimisées"
     },
    

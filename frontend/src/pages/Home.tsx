@@ -9,9 +9,9 @@ const Home: React.FC = () => {
 
   const stats = [
     { number: "3+", label: "Années d'expérience" },
-    { number: "10+", label: "Projets réalisés" },
+    { number: "2+", label: "Projets réalisés" },
     { number: "5+", label: "Technologies maîtrisées" },
-    { number: "100%", label: "Satisfaction client" }
+    { number: "70%", label: "Satisfaction client" }
   ];
 
   const services = [

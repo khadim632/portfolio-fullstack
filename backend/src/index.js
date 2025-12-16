@@ -17,8 +17,23 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // CORS
+// ✅ APRÈS
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://portfolio-khadim-ndao-pi.vercel.app"
+];
+
 app.use(cors({
-  origin: process.env.FRONTEND_URL || "https://portfolio-khadim-ndao-pi.vercel.app/",
+  origin: function(origin, callback) {
+    // Autoriser les requêtes sans origin (Postman, curl, etc.)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Non autorisé par CORS'));
+    }
+  },
   credentials: true
 }));
 
