@@ -50,8 +50,8 @@ const Navbar: React.FC = () => {
               </Link>
             ))}
 
-            {/* Bouton Admin/Login */}
-            {authContext?.user ? (
+            {/* Bouton Admin/Déconnexion (le bouton Connexion est masqué) */}
+            {authContext?.user && (
               <div className="flex items-center gap-2">
                 <Link
                   to="/admin"
@@ -66,14 +66,8 @@ const Navbar: React.FC = () => {
                   🚪 Déconnexion
                 </button>
               </div>
-            ) : (
-              <Link
-                to="/login"
-                className="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg font-medium hover:shadow-lg transition-all"
-              >
-                🔐 Connexion
-              </Link>
             )}
+            {/* ❌ Le bouton "Connexion" est maintenant masqué */}
           </div>
 
           {/* Menu Mobile Toggle */}
@@ -112,7 +106,7 @@ const Navbar: React.FC = () => {
                 </Link>
               ))}
               
-              {authContext?.user ? (
+              {authContext?.user && (
                 <>
                   <Link
                     to="/admin"
@@ -131,15 +125,8 @@ const Navbar: React.FC = () => {
                     🚪 Déconnexion
                   </button>
                 </>
-              ) : (
-                <Link
-                  to="/login"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="block px-4 py-2 bg-blue-600 text-white rounded-lg font-medium text-center"
-                >
-                  🔐 Connexion
-                </Link>
               )}
+              {/* ❌ Le bouton "Connexion" est également masqué en mode mobile */}
             </div>
           </div>
         )}
