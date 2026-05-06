@@ -5,6 +5,12 @@ import profileImage from "../assets/profile.jpg"; // ou profile.png
 const About: React.FC = () => {
   const experiences = [
     {
+      period: "Janvier 2026 - A nos Jours",
+      role: "Web Designer",
+      company: "HGPD - Horizon Gouvernance par la Donnée",
+      location: "France (100 remote)"
+    },
+    {
       period: "Juin - Décembre 2024",
       role: "Agent de billetterie et service transfert d'argent",
       company: "Dija Service",
