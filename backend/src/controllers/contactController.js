@@ -1,18 +1,8 @@
-import nodemailer from "nodemailer";
+import sgMail from "@sendgrid/mail";
 import Message from "../models/Message.js";
 
-const transporter = nodemailer.createTransport({
-  host: process.env.EMAIL_HOST || "smtp.gmail.com",
-  port: Number(process.env.EMAIL_PORT) || 587,
-  secure: process.env.EMAIL_SECURE === "true", // false pour le port 587
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-  tls: {
-    rejectUnauthorized: false,
-  },
-});
+// Configuration SendGrid
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 export const sendContact = async (req, res) => {
   try {
@@ -22,22 +12,48 @@ export const sendContact = async (req, res) => {
     const newMessage = new Message({ nom, email, message });
     await newMessage.save();
 
-    // Envoyer l'email avec Nodemailer
-    await transporter.sendMail({
-      from: process.env.EMAIL_USER,
-      to: process.env.EMAIL_USER, // tu peux aussi mettre un autre destinataire
+    // Préparer l'email avec SendGrid
+    const msg = {
+      to: process.env.EMAIL_USER, // destinataire (ton email)
+      from: {
+        email: process.env.SENDGRID_FROM_EMAIL || process.env.EMAIL_USER,
+        name: "Portfolio Contact"
+      },
       subject: `Nouveau message de ${nom}`,
       html: `
-        <h2>Nouveau contact !</h2>
-        <p><strong>De :</strong> ${nom} (${email})</p>
-        <p><strong>Message :</strong></p>
-        <p>${message}</p>
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+          <h2 style="color: #333; border-bottom: 2px solid #007bff; padding-bottom: 10px;">
+            Nouveau contact !
+          </h2>
+          <div style="background: #f8f9fa; padding: 20px; border-radius: 5px; margin: 20px 0;">
+            <p style="margin: 10px 0;"><strong>De :</strong> ${nom} (${email})</p>
+            <p style="margin: 10px 0;"><strong>Date :</strong> ${new Date().toLocaleString('fr-FR')}</p>
+          </div>
+          <div style="background: #ffffff; padding: 20px; border: 1px solid #dee2e6; border-radius: 5px;">
+            <p style="margin: 10px 0;"><strong>Message :</strong></p>
+            <p style="margin: 10px 0; line-height: 1.6;">${message.replace(/\n/g, '<br>')}</p>
+          </div>
+          <hr style="border: none; border-top: 1px solid #dee2e6; margin: 30px 0;">
+          <p style="color: #6c757d; font-size: 12px;">
+            Cet email a été envoyé depuis le formulaire de contact de ton portfolio.
+          </p>
+        </div>
       `,
-    });
+      replyTo: email, // permet de répondre directement à l'expéditeur
+    };
 
-    res.json({ message: "Email envoyé avec succès !" });
+    // Envoyer l'email avec SendGrid
+    await sgMail.send(msg);
+
+    res.json({
+      message: "Email envoyé avec succès !",
+      success: true
+    });
   } catch (err) {
     console.error("Erreur envoi email :", err);
-    res.status(500).json({ message: err.message });
+    res.status(500).json({
+      message: "Erreur lors de l'envoi de l'email. Veuillez réessayer.",
+      error: process.env.NODE_ENV === 'development' ? err.message : undefined
+    });
   }
 };
