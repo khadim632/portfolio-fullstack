@@ -2,11 +2,26 @@ import sgMail from "@sendgrid/mail";
 import Message from "../models/Message.js";
 
 // Configuration SendGrid
+if (!process.env.SENDGRID_API_KEY) {
+  console.error("SENDGRID_API_KEY is not set");
+}
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 export const sendContact = async (req, res) => {
   try {
     const { nom, email, message } = req.body;
+    if (!process.env.SENDGRID_API_KEY) {
+      return res.status(500).json({
+        message: "SendGrid API key manquante sur le serveur.",
+        error: "SENDGRID_API_KEY non configurée"
+      });
+    }
+    if (!process.env.EMAIL_USER && !process.env.SENDGRID_FROM_EMAIL) {
+      return res.status(500).json({
+        message: "Aucun email expéditeur configuré.",
+        error: "EMAIL_USER ou SENDGRID_FROM_EMAIL manquant"
+      });
+    }
 
     // Sauvegarder le message en base de données
     const newMessage = new Message({ nom, email, message });
@@ -53,7 +68,7 @@ export const sendContact = async (req, res) => {
     console.error("Erreur envoi email :", err);
     res.status(500).json({
       message: "Erreur lors de l'envoi de l'email. Veuillez réessayer.",
-      error: process.env.NODE_ENV === 'development' ? err.message : undefined
+      error: process.env.NODE_ENV === 'development' ? (err.response ? err.response.body : err.message) : undefined
     });
   }
 };

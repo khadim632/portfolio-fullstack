@@ -39,6 +39,9 @@ app.use(cors({
 
 app.use(express.json({ limit: "5mb" }));
 
+console.log("SENDGRID_API_KEY loaded:", Boolean(process.env.SENDGRID_API_KEY));
+console.log("SENDGRID_FROM_EMAIL loaded:", Boolean(process.env.SENDGRID_FROM_EMAIL));
+
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/projets", projetRoutes);
