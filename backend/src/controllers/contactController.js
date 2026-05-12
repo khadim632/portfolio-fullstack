@@ -30,11 +30,11 @@ export const sendContact = async (req, res) => {
       from: process.env.EMAIL_USER,
       to: process.env.EMAIL_USER, // Vous recevez l'email
       replyTo: email, // Pour répondre directement à l'expéditeur
-      subject: `Nouveau message de ${nom}`,
+      subject: `📬 Nouveau message de ${nom}`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h2 style="color: #333; border-bottom: 2px solid #007bff; padding-bottom: 10px;">
-            📬 Nouveau contact !
+            📬 Nouveau contact depuis votre portfolio !
           </h2>
           <div style="background: #f8f9fa; padding: 20px; border-radius: 5px; margin: 20px 0;">
             <p style="margin: 10px 0;"><strong>De :</strong> ${nom}</p>
